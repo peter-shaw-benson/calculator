@@ -10,20 +10,29 @@ export class CalculatorModel implements ICalculatorModel {
   private _buffer: string = '';
 
   public pressNumericKey(key: NumericKeys): void {
-    this._buffer += key;
+
+    // test for containing equals sign:
+    if (!this._buffer.includes('=')) {
+      this._buffer += key;
+    }
   }
 
   public pressOperatorKey(key: OperatorKeys): void {
-
-    switch(key) {
-      case OperatorKeys.MULT:
-        this._buffer += " * ";
-      case OperatorKeys.DIV:
-        this._buffer += " / ";
-      case OperatorKeys.PLUS:
-        this._buffer += " + ";
-      case OperatorKeys.MINUS:
-        this._buffer += " - ";
+    // check for operator just pressed
+    if (!this._buffer.includes('=')) {
+      let lastKey = this._buffer.slice(-1);
+    
+      if (lastKey in OperatorKeys) {
+        let tempBuffer = this._buffer.split('');
+        // set the last character to the most recently pressed buffer, 
+        // if the most recent key is an operator
+        tempBuffer[-1] = key;
+        
+        this._buffer = tempBuffer.join('');
+      } else {
+        // these are already implemented in the key
+        this._buffer += key;
+      }
     }
   }
 

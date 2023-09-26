@@ -74,7 +74,7 @@ describe("Arithmetic Operations", (): void => {
     calculator.pressNumericKey(NumericKeys.TWO);
     const displayValue: string = calculator.display();
   
-    expect(displayValue).toEqual('2 + 2');
+    expect(displayValue).toEqual('2+2');
   });
 
   it('should evaluate the correct arithmetic expression of 2 + 2 = 4', (): void => {
@@ -84,6 +84,6 @@ describe("Arithmetic Operations", (): void => {
     calculator.pressActionKey(ActionKeys.EQUALS);
     const displayValue: string = calculator.display();
   
-    expect(displayValue).toEqual('2 + 2 = 4');
+    expect(displayValue).toEqual('2+2=4');
   });
 });
