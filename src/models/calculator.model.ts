@@ -14,11 +14,28 @@ export class CalculatorModel implements ICalculatorModel {
   }
 
   public pressOperatorKey(key: OperatorKeys): void {
-    throw new Error('Method not implemented.');
+
+    switch(key) {
+      case OperatorKeys.MULT:
+        this._buffer += " * ";
+      case OperatorKeys.DIV:
+        this._buffer += " / ";
+      case OperatorKeys.PLUS:
+        this._buffer += " + ";
+      case OperatorKeys.MINUS:
+        this._buffer += " - ";
+    }
   }
 
   public pressActionKey(key: ActionKeys): void {
     throw new Error('Method not implemented.');
+
+    // idea: construct "clauses" where each one is an operator and two numbers.
+    // find and resolve clauses based on operator precedence
+
+    // clear method: buffer = ''. 
+
+    // the dot method will be harder.
   }
 
   public display(): string {
