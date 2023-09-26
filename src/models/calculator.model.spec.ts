@@ -77,6 +77,55 @@ describe("Arithmetic Operations", (): void => {
     expect(displayValue).toEqual('2+2');
   });
 
+  it('should display the correct arithmetic expression of 2 - 2', (): void => {
+    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressOperatorKey(OperatorKeys.MINUS);
+    calculator.pressNumericKey(NumericKeys.TWO);
+    const displayValue: string = calculator.display();
+  
+    expect(displayValue).toEqual('2-2');
+  });
+
+  it('should display the correct arithmetic expression of 2 / 2', (): void => {
+    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressOperatorKey(OperatorKeys.DIV);
+    calculator.pressNumericKey(NumericKeys.TWO);
+    const displayValue: string = calculator.display();
+  
+    expect(displayValue).toEqual('2/2');
+  });
+
+  it('should display the correct arithmetic expression of 2 * 2', (): void => {
+    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressOperatorKey(OperatorKeys.MULT);
+    calculator.pressNumericKey(NumericKeys.TWO);
+    const displayValue: string = calculator.display();
+  
+    expect(displayValue).toEqual('2*2');
+  });
+
+  // Test for replacing the recent operator
+  it('should replace the most recent operator with the new operator (minus)', (): void => {
+    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressOperatorKey(OperatorKeys.PLUS);
+    calculator.pressOperatorKey(OperatorKeys.MINUS);
+    calculator.pressNumericKey(NumericKeys.TWO);
+    const displayValue: string = calculator.display();
+  
+    expect(displayValue).toEqual('2-2');
+  });
+
+  // Test for replacing the recent operator
+  it('should replace the most recent operator with the new operator (divide)', (): void => {
+    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressOperatorKey(OperatorKeys.MINUS);
+    calculator.pressOperatorKey(OperatorKeys.DIV);
+    calculator.pressNumericKey(NumericKeys.TWO);
+    const displayValue: string = calculator.display();
+  
+    expect(displayValue).toEqual('2/2');
+  });
+
   it('should evaluate the correct arithmetic expression of 2 + 2 = 4', (): void => {
     calculator.pressNumericKey(NumericKeys.TWO);
     calculator.pressOperatorKey(OperatorKeys.PLUS);

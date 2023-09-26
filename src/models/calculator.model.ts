@@ -29,6 +29,9 @@ export class CalculatorModel implements ICalculatorModel {
         tempBuffer[-1] = key;
         
         this._buffer = tempBuffer.join('');
+
+        console.log(tempBuffer);
+        console.log(this._buffer);
       } else {
         // these are already implemented in the key
         this._buffer += key;
