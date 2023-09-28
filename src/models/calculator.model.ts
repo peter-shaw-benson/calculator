@@ -14,21 +14,33 @@ export class CalculatorModel implements ICalculatorModel {
   }
 
   public pressOperatorKey(key: OperatorKeys): void {
-    throw new Error('Method not implemented.');
+    switch(key) {
+      case OperatorKeys.DIV:
+        this._buffer += "/"
+        break;
+      case OperatorKeys.MINUS:
+        this._buffer += "-"
+        break;
+        case OperatorKeys.MULT:
+        this._buffer += "*"
+        break;
+        case OperatorKeys.PLUS:
+        this._buffer += "+"
+        break;
+    }
   }
 
   public pressActionKey(key: ActionKeys): void {
     if(key == ActionKeys.CLEAR) {
       this._buffer = ""
     } else if (key == ActionKeys.EQUALS) {
-      this._buffer += '='
       var eq = this._buffer.split("+").join(" ").split("*").join(" ").split("-").join(" ").split("/").join(" ").split(" ")
 
       var nums:number[] = new Array(eq.length)
       var operators:string[] = new Array(eq.length - 1)
       var lastOperatorChar = -1
       nums[0] = +eq[0]
-      for(var i = 0; i < operators.length; i++) { 1+1+1
+      for(var i = 0; i < operators.length; i++) {
         nums[i + 1] = +eq[i + 1];
         lastOperatorChar = lastOperatorChar + eq[i].length + 1
         operators[i] = this._buffer.charAt(lastOperatorChar)
@@ -51,6 +63,7 @@ export class CalculatorModel implements ICalculatorModel {
             break;
         }
       }
+      this._buffer += '='
       this._buffer += result.toString();
     }
   }
