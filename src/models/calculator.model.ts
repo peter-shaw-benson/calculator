@@ -22,23 +22,36 @@ export class CalculatorModel implements ICalculatorModel {
       this._buffer = ""
     } else if (key == ActionKeys.EQUALS) {
       this._buffer += '='
-      var eq = this._buffer.split("+").join(" ").split("*").join(" ").split("-").join(" ").split("/").join(" ").split(" ") 
-      var num1 = +eq[0]
-      var num2 = +eq[2]
-      switch(this._buffer.charAt(eq[0].length + 1)) {
-        case('+'):
-          this._buffer += num1 + num2
-          break;
-        case('-'):
-          this._buffer += num1 - num2
-          break;
-        case('*'):
-          this._buffer += num1 * num2
-          break;
-        case('/'):
-          this._buffer += num1 / num2
-          break;
+      var eq = this._buffer.split("+").join(" ").split("*").join(" ").split("-").join(" ").split("/").join(" ").split(" ")
+
+      var nums:number[] = new Array(eq.length)
+      var operators:string[] = new Array(eq.length - 1)
+      var lastOperatorChar = -1
+      nums[0] = +eq[0]
+      for(var i = 0; i < operators.length; i++) { 1+1+1
+        nums[i + 1] = +eq[i + 1];
+        lastOperatorChar = lastOperatorChar + eq[i].length + 1
+        operators[i] = this._buffer.charAt(lastOperatorChar)
       }
+
+      var result = nums[0]
+      for(var i = 0; i < operators.length; i++) {
+        switch(operators[i]) {
+          case('+'):
+            result = result + nums[i + 1]
+            break;
+          case('-'):
+            result = result - nums[i + 1]
+            break;
+          case('*'):
+            result = result * nums[i + 1]
+            break;
+          case('/'):
+            result = result / nums[i + 1]
+            break;
+        }
+      }
+      this._buffer += result.toString();
     }
   }
 
