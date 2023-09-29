@@ -18,11 +18,15 @@ export class CalculatorModel implements ICalculatorModel {
   }
 
   public pressOperatorKey(key: OperatorKeys): void {
+
     // check for operator just pressed
     if (!this._buffer.includes('=')) {
       let lastKey = this._buffer.slice(-1);
     
-      if (lastKey in OperatorKeys) {
+      // check if last key is an operator key
+      if (Object.values(OperatorKeys).includes(lastKey as OperatorKeys)) {
+        console.log("replacing operator");
+
         let tempBuffer = this._buffer.split('');
         // set the last character to the most recently pressed buffer, 
         // if the most recent key is an operator
