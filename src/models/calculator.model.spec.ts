@@ -54,85 +54,62 @@ describe('CalculatorModel', (): void => {
     calculator.pressNumericKey(NumericKeys.NINE);
     calculator.pressNumericKey(NumericKeys.EIGHT);
     const displayValue: string = calculator.display();
-  
+
     expect(displayValue).toEqual('98');
-  
+
   });
 
-});
+  it('should display `13` when equals is clicked on `7 + 6`', (): void => {
 
-describe("Arithmetic Operations", (): void => {
-  let calculator: ICalculatorModel;
-
-  beforeEach((): void => {
-    calculator = new CalculatorModel();
-  });
-
-  it('should display the correct arithmetic expression of 2 + 2', (): void => {
-    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressNumericKey(NumericKeys.SEVEN);
     calculator.pressOperatorKey(OperatorKeys.PLUS);
-    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressNumericKey(NumericKeys.SIX);
+    calculator.pressActionKey(ActionKeys.EQUALS);
     const displayValue: string = calculator.display();
-  
-    expect(displayValue).toEqual('2+2');
+
+    expect(displayValue).toEqual('13');
+
   });
 
-  it('should display the correct arithmetic expression of 2 - 2', (): void => {
-    calculator.pressNumericKey(NumericKeys.TWO);
+  it('should display `5` when equals is clicked on `15 - 10`', (): void => {
+
+    calculator.pressNumericKey(NumericKeys.ONE);
+    calculator.pressNumericKey(NumericKeys.FIVE);
     calculator.pressOperatorKey(OperatorKeys.MINUS);
-    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressNumericKey(NumericKeys.ONE);
+    calculator.pressNumericKey(NumericKeys.ZERO);
+    calculator.pressActionKey(ActionKeys.EQUALS);
     const displayValue: string = calculator.display();
-  
-    expect(displayValue).toEqual('2-2');
+
+    expect(displayValue).toEqual('5');
+
   });
 
-  it('should display the correct arithmetic expression of 2 / 2', (): void => {
-    calculator.pressNumericKey(NumericKeys.TWO);
-    calculator.pressOperatorKey(OperatorKeys.DIV);
-    calculator.pressNumericKey(NumericKeys.TWO);
-    const displayValue: string = calculator.display();
-  
-    expect(displayValue).toEqual('2/2');
-  });
+  it('should display `21` when equals is clicked on `3 * 7`', (): void => {
 
-  it('should display the correct arithmetic expression of 2 * 2', (): void => {
-    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressNumericKey(NumericKeys.THREE);
     calculator.pressOperatorKey(OperatorKeys.MULT);
-    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressNumericKey(NumericKeys.SEVEN);
+    calculator.pressActionKey(ActionKeys.EQUALS);
     const displayValue: string = calculator.display();
-  
-    expect(displayValue).toEqual('2*2');
+
+    expect(displayValue).toEqual('21');
+
   });
 
-  // Test for replacing the recent operator
-  it('should replace the most recent operator with the new operator (minus)', (): void => {
-    calculator.pressNumericKey(NumericKeys.TWO);
-    calculator.pressOperatorKey(OperatorKeys.PLUS);
-    calculator.pressOperatorKey(OperatorKeys.MINUS);
-    calculator.pressNumericKey(NumericKeys.TWO);
-    const displayValue: string = calculator.display();
-  
-    expect(displayValue).toEqual('2-2');
-  });
+  it('should display `12` when equals is clicked on `144 / 12`', (): void => {
 
-  // Test for replacing the recent operator
-  it('should replace the most recent operator with the new operator (divide)', (): void => {
-    calculator.pressNumericKey(NumericKeys.TWO);
-    calculator.pressOperatorKey(OperatorKeys.MINUS);
+    calculator.pressNumericKey(NumericKeys.ONE);
+    calculator.pressNumericKey(NumericKeys.FOUR);
+    calculator.pressNumericKey(NumericKeys.FOUR);
     calculator.pressOperatorKey(OperatorKeys.DIV);
-    calculator.pressNumericKey(NumericKeys.TWO);
-    const displayValue: string = calculator.display();
-  
-    expect(displayValue).toEqual('2/2');
-  });
-
-  it('should evaluate the correct arithmetic expression of 2 + 2 = 4', (): void => {
-    calculator.pressNumericKey(NumericKeys.TWO);
-    calculator.pressOperatorKey(OperatorKeys.PLUS);
+    calculator.pressNumericKey(NumericKeys.ONE);
     calculator.pressNumericKey(NumericKeys.TWO);
     calculator.pressActionKey(ActionKeys.EQUALS);
     const displayValue: string = calculator.display();
-  
-    expect(displayValue).toEqual('2+2=4');
+
+    expect(displayValue).toEqual('12');
+
   });
+
 });

@@ -3,59 +3,79 @@ import { ActionKeys } from '../enums/action-keys.enum';
 import { NumericKeys } from '../enums/numeric-keys.enum';
 import { OperatorKeys } from '../enums/operator-keys.enum';
 import { ICalculatorModel } from '../interfaces/calculator-model.interface';
-import { buffer } from 'stream/consumers';
 
 export class CalculatorModel implements ICalculatorModel {
 
+  private _operands: Array<string> = [];
   private _buffer: string = '';
+  private _operators: Array<OperatorKeys> = [];
 
   public pressNumericKey(key: NumericKeys): void {
-
-    // test for containing equals sign:
-    if (!this._buffer.includes('=')) {
-      this._buffer += key;
-    }
+    this._buffer += key;
   }
 
   public pressOperatorKey(key: OperatorKeys): void {
-
-    // check for operator just pressed
-    if (!this._buffer.includes('=')) {
-      let lastKey = this._buffer.slice(-1);
-    
-      // check if last key is an operator key
-      if (Object.values(OperatorKeys).includes(lastKey as OperatorKeys)) {
-        console.log("replacing operator");
-
-        let tempBuffer = this._buffer.split('');
-        // set the last character to the most recently pressed buffer, 
-        // if the most recent key is an operator
-        tempBuffer[-1] = key;
-        
-        this._buffer = tempBuffer.join('');
-
-        console.log(tempBuffer);
-        console.log(this._buffer);
-      } else {
-        // these are already implemented in the key
-        this._buffer += key;
-      }
-    }
+    this._operators.push(key);
+    this._operands.push(this._buffer);
+     // pushes both the previous number pressed and the new operator. 
+    this._buffer = '';
   }
 
   public pressActionKey(key: ActionKeys): void {
-    throw new Error('Method not implemented.');
-
-    // idea: construct "clauses" where each one is an operator and two numbers.
-    // find and resolve clauses based on operator precedence
-
-    // clear method: buffer = ''. 
-
-    // the dot method will be harder.
+    switch (key) {
+      case ActionKeys.CLEAR:
+        this._buffer = '';
+        this._operands = [];
+        this._operators = [];
+        break;
+      case ActionKeys.DOT:
+        this._buffer += '.';
+        break;
+      case ActionKeys.EQUALS:
+        this._operands.push(this._buffer);
+        if (this._operators.length !== this._operands.length - 1) {
+          this.pressActionKey(ActionKeys.CLEAR);
+          break;
+        }
+        this._buffer = this.evaluate();
+        break;
+      default:
+        throw new Error('Invalid Action');
+    }
   }
 
   public display(): string {
     return this._buffer;
+  }
+
+  private evaluate(): string {
+
+    while(this._operators.length > 0) {
+      const operator: OperatorKeys = this._operators.shift();
+      const operandOne: number = parseFloat(this._operands.shift());
+      const operandTwo: number = parseFloat(this._operands.shift());
+      
+      switch(operator) {
+        case OperatorKeys.PLUS:
+          this._buffer = (operandOne + operandTwo).toString();
+          break;
+        case OperatorKeys.MINUS:
+          this._buffer = (operandOne - operandTwo).toString();
+          break;
+        case OperatorKeys.MULT:
+          this._buffer = (operandOne * operandTwo).toString();
+          break;  
+        case OperatorKeys.DIV:
+          this._buffer = (operandOne / operandTwo).toString();
+          break;
+        default:
+          break;
+      }
+      this._operands.unshift(this._buffer);
+    }
+  
+    return this._operands.shift();
+
   }
 
 }
