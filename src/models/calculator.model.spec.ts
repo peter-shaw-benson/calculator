@@ -1,5 +1,5 @@
 
-import { CalculatorModel } from './calculator.model';
+import { CalculatorModel } from './calculator.model_old';
 import { ICalculatorModel } from '../interfaces/calculator-model.interface';
 import { NumericKeys } from '../enums/numeric-keys.enum';
 import { OperatorKeys } from '../enums/operator-keys.enum';
