@@ -1,5 +1,5 @@
 
-import { CalculatorModel } from './calculator.model_old';
+import { CalculatorModel } from './calculator.model';
 import { ICalculatorModel } from '../interfaces/calculator-model.interface';
 import { NumericKeys } from '../enums/numeric-keys.enum';
 import { OperatorKeys } from '../enums/operator-keys.enum';
@@ -112,4 +112,14 @@ describe('CalculatorModel', (): void => {
 
   });
 
+  it('should display `14` when equals is clicked on `2 + 3 * 4`', (): void => {
+    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressOperatorKey(OperatorKeys.PLUS);
+    calculator.pressNumericKey(NumericKeys.THREE);
+    calculator.pressOperatorKey(OperatorKeys.MULT);
+    calculator.pressNumericKey(NumericKeys.FOUR);
+    calculator.pressActionKey(ActionKeys.EQUALS);
+    const displayValue: string = calculator.display();
+    expect(displayValue).toEqual('14');
+  });
 });
