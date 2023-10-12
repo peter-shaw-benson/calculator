@@ -3,6 +3,8 @@ import { ActionKeys } from '../enums/action-keys.enum';
 import { NumericKeys } from '../enums/numeric-keys.enum';
 import { OperatorKeys } from '../enums/operator-keys.enum';
 import { ICalculatorModel } from '../interfaces/calculator-model.interface';
+import { ICalculatorState } from '../interfaces/calculator-state.interface';
+import { FirstOperand } from './states/calculator.first-state';
 
 export class CalculatorModel implements ICalculatorModel {
 
@@ -10,11 +12,26 @@ export class CalculatorModel implements ICalculatorModel {
   private _buffer: string = '';
   private _operators: Array<OperatorKeys> = [];
 
+  // state
+  private state: ICalculatorState;
+
+  constructor() {
+    this.state = new FirstOperand();
+  }
+
+  public changeState(newState: ICalculatorState) {
+    this.state = newState;
+  }
+
   public pressNumericKey(key: NumericKeys): void {
+    this.state.numericPressed(this, key);
+
     this._buffer += key;
   }
 
   public pressOperatorKey(key: OperatorKeys): void {
+    this.state.operationPressed(this, key);
+
     this._operators.push(key);
     this._operands.push(this._buffer);
      // pushes both the previous number pressed and the new operator. 
@@ -22,6 +39,8 @@ export class CalculatorModel implements ICalculatorModel {
   }
 
   public pressActionKey(key: ActionKeys): void {
+    this.state.actionPressed(this, key);
+
     switch (key) {
       case ActionKeys.CLEAR:
         this._buffer = '';
