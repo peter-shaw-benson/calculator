@@ -22,7 +22,7 @@ export class FirstOperand implements ICalculatorState {
 
         let firstNumber: number = parseFloat(this._firstOperand)
 
-        calc.changeState(new SecondOperand(firstNumber));
+        calc.changeState(new SecondOperand(firstNumber, key));
 
         calc.storeOperator(key);
 

@@ -8,11 +8,14 @@ import { PostEvaluation } from "./calculator.post-evaluation";
 
 export class SecondOperand implements ICalculatorState {
 
-    private _firstOperand: number;
+    private _firstNumber: number;
     private _secondOperand: string;
 
-    constructor(first: number) {
-        this._firstOperand = first;
+    private _operator: OperatorKeys;
+
+    constructor(first: number, operator: OperatorKeys) {
+        this._firstNumber = first;
+        this._operator = operator;
 
         this._secondOperand = '';
     }
@@ -33,7 +36,7 @@ export class SecondOperand implements ICalculatorState {
 
         switch (key) {
             case OperatorKeys.MULT:
-                calc.changeState(new ThirdOperand(key, secondNumber)); 
+                calc.changeState(new ThirdOperand(secondNumber, key)); 
                 break;
         }
     }
@@ -46,6 +49,8 @@ export class SecondOperand implements ICalculatorState {
                 break;
             case ActionKeys.EQUALS:
                 // resolve from the front as normal
+                let secondNumber: number = parseFloat(this._secondOperand);
+
                 calc.evaluate();
 
                 calc.changeState(new PostEvaluation());

@@ -11,12 +11,19 @@ export class Evaluator {
         switch(operator) {
             case(OperatorKeys.PLUS):
                 result = firstOperand + secondOperand;
+                break;
             case(OperatorKeys.MINUS):
                 result = firstOperand - secondOperand;
+                break;
             case(OperatorKeys.DIV):
                 result = firstOperand / secondOperand;
+                break;
             case(OperatorKeys.MULT):
                 result = firstOperand * secondOperand;
+                break;
+            default:
+                throw new Error('Invalid Operation');
+                break;
         }
 
         return result;
