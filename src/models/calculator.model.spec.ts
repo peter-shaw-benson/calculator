@@ -157,4 +157,15 @@ describe('CalculatorModel', (): void => {
     const displayValue: string = calculator.display();
     expect(displayValue).toEqual('3');
   });
+
+  it('should display `40` when equals is clicked on `4 * 5 * 2`', (): void => {
+    calculator.pressNumericKey(NumericKeys.FOUR);
+    calculator.pressOperatorKey(OperatorKeys.MULT);
+    calculator.pressNumericKey(NumericKeys.FIVE);
+    calculator.pressOperatorKey(OperatorKeys.MULT);
+    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressActionKey(ActionKeys.EQUALS);
+    const displayValue: string = calculator.display();
+    expect(displayValue).toEqual('40');
+  });
 });

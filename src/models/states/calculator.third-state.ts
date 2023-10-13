@@ -9,10 +9,15 @@ import { Evaluator } from "../evaluator";
 
 export class ThirdOperand implements ICalculatorState {
     
+    private _firstNumber: number;
+    private _firstOperator: OperatorKeys;
+
     private _secondOperator: OperatorKeys;
     private _secondNumber: number;
 
     private _thirdOperand: string;
+
+    private tempEval: Evaluator = new Evaluator();
 
     constructor(secondNumber: number, secondOperator: OperatorKeys) {
         this._secondOperator = secondOperator;
@@ -38,12 +43,13 @@ export class ThirdOperand implements ICalculatorState {
                 break;
             case ActionKeys.EQUALS:
                 // resolve from the back (i.e. start with the multiplication at the back.)
-                let tempEval = new Evaluator();
                 let thirdNumber: number = parseFloat(this._thirdOperand);
 
-                let result: number = tempEval.evaluate(this._secondNumber, thirdNumber, this._secondOperator);
+                let secondResult: number = this.tempEval.evaluate(this._secondNumber, thirdNumber, this._secondOperator);
 
-                calc.evaluateThirdOperand();
+                let finalResult: number = this.tempEval.evaluate(this._firstNumber, secondResult, this._firstOperator);
+
+                calc.storeResult(finalResult);
 
                 calc.changeState(new PostEvaluation());
                 break;

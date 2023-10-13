@@ -40,6 +40,10 @@ export class CalculatorModel implements ICalculatorModel {
     this._buffer = '';
   }
 
+  storeResult(result: number) {
+    this._buffer = String(result);
+  }
+
   public changeState(newState: ICalculatorState) {
     this.state = newState;
   }

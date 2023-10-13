@@ -5,6 +5,7 @@ import { ThirdOperand } from "./calculator.third-state";
 import { NumericKeys } from "../../enums/numeric-keys.enum";
 import { ActionKeys } from "../../enums/action-keys.enum";
 import { PostEvaluation } from "./calculator.post-evaluation";
+import { Evaluator } from "../evaluator";
 
 export class SecondOperand implements ICalculatorState {
 
@@ -12,6 +13,8 @@ export class SecondOperand implements ICalculatorState {
     private _secondOperand: string;
 
     private _operator: OperatorKeys;
+
+    private tempEval: Evaluator = new Evaluator();
 
     constructor(first: number, operator: OperatorKeys) {
         this._firstNumber = first;
@@ -51,7 +54,9 @@ export class SecondOperand implements ICalculatorState {
                 // resolve from the front as normal
                 let secondNumber: number = parseFloat(this._secondOperand);
 
-                calc.evaluate();
+                let finalResult: number = this.tempEval.evaluate(this._firstNumber, secondNumber, this._operator);
+
+                calc.storeResult(finalResult);
 
                 calc.changeState(new PostEvaluation());
                 break;

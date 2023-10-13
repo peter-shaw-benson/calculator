@@ -5,6 +5,9 @@ import { OperatorKeys } from '../enums/operator-keys.enum';
 import { ICalculatorState } from './calculator-state.interface';
 
 export interface ICalculatorModel {
+
+  storeResult(result: number): void;
+
   storeNumericKey(key: NumericKeys): void;
 
   storeOperator(key: OperatorKeys): void;
