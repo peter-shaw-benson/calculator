@@ -19,7 +19,12 @@ export class ThirdOperand implements ICalculatorState {
 
     private tempEval: Evaluator = new Evaluator();
 
-    constructor(secondNumber: number, secondOperator: OperatorKeys) {
+    constructor(firstNumber: number, firstOperator: OperatorKeys,
+                secondNumber: number, secondOperator: OperatorKeys) {
+
+        this._firstNumber = firstNumber;
+        this._firstOperator = firstOperator;
+
         this._secondOperator = secondOperator;
         this._secondNumber = secondNumber;
 
@@ -28,7 +33,7 @@ export class ThirdOperand implements ICalculatorState {
 
     numericPressed(calc: ICalculatorModel, key: NumericKeys): void {
         // add to buffer here, keep making the third operand
-        calc.storeNumericKey(key);
+        this._thirdOperand += key;
     }
 
     operationPressed(calc: ICalculatorModel, key: OperatorKeys): void {
@@ -46,12 +51,14 @@ export class ThirdOperand implements ICalculatorState {
                 let thirdNumber: number = parseFloat(this._thirdOperand);
 
                 let secondResult: number = this.tempEval.evaluate(this._secondNumber, thirdNumber, this._secondOperator);
+                console.log(this._secondNumber, thirdNumber, this._secondOperator, secondResult);
 
                 let finalResult: number = this.tempEval.evaluate(this._firstNumber, secondResult, this._firstOperator);
-
+                
+                console.log(this._firstNumber, secondResult, this._firstOperator, finalResult);
                 calc.storeResult(finalResult);
 
-                calc.changeState(new PostEvaluation());
+                calc.changeState(new PostEvaluation(String(finalResult)));
                 break;
             default:
                 throw new Error('Invalid Action');

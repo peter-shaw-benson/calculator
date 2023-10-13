@@ -24,8 +24,6 @@ export class FirstOperand implements ICalculatorState {
 
         calc.changeState(new SecondOperand(firstNumber, key));
 
-        calc.storeOperator(key);
-
         // push to the first operator buffer, and the operators buffer? 
     }
 

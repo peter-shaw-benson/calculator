@@ -5,9 +5,15 @@ import { ThirdOperand } from "./calculator.third-state";
 import { NumericKeys } from "../../enums/numeric-keys.enum";
 import { ActionKeys } from "../../enums/action-keys.enum";
 import { SecondOperand } from "./calculator.second-state";
+import { parse } from "path";
 
 export class PostEvaluation implements ICalculatorState {
-    constructor() {}
+
+    private _resultString: string;
+
+    constructor(result: string) {
+        this._resultString = result;
+    }
 
     numericPressed(calc: ICalculatorModel, key: NumericKeys): void {
         // can't add new numbers here. 
@@ -17,11 +23,10 @@ export class PostEvaluation implements ICalculatorState {
     operationPressed(calc: ICalculatorModel, key: OperatorKeys): void {
         //calc.changeState(new SecondOperand());
 
-        calc.storeOperator(key);
-
         switch (key) {
             case OperatorKeys.MULT:
-                calc.changeState(new SecondOperand()); 
+                // placeholder value of 0
+                calc.changeState(new SecondOperand(parseFloat(this._resultString), key)); 
                 break;
         }
     }

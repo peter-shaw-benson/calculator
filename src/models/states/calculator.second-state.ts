@@ -25,7 +25,6 @@ export class SecondOperand implements ICalculatorState {
 
     numericPressed(calc: ICalculatorModel, key: NumericKeys): void {
         // add to buffer, this is the second operand
-        calc.storeNumericKey(key);
 
         this._secondOperand += key;
     }
@@ -33,13 +32,12 @@ export class SecondOperand implements ICalculatorState {
     operationPressed(calc: ICalculatorModel, key: OperatorKeys): void {
         //calc.changeState(new SecondOperand());
 
-        calc.storeOperator(key);
-
         let secondNumber: number = parseFloat(this._secondOperand);
 
         switch (key) {
             case OperatorKeys.MULT:
-                calc.changeState(new ThirdOperand(secondNumber, key)); 
+                calc.changeState(new ThirdOperand(this._firstNumber, this._operator,
+                                                secondNumber, key)); 
                 break;
         }
     }
@@ -58,7 +56,7 @@ export class SecondOperand implements ICalculatorState {
 
                 calc.storeResult(finalResult);
 
-                calc.changeState(new PostEvaluation());
+                calc.changeState(new PostEvaluation(String(finalResult)));
                 break;
             default:
                 throw new Error('Invalid Action');
