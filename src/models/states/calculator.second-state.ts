@@ -34,10 +34,30 @@ export class SecondOperand implements ICalculatorState {
 
         let secondNumber: number = parseFloat(this._secondOperand);
 
+        let firstResult: number = this.tempEval.evaluate(this._firstNumber, secondNumber, this._operator);  
+
         switch (key) {
+            case OperatorKeys.PLUS:
+
+                calc.changeState(new SecondOperand(firstResult, key));
+                break;
+
+            case OperatorKeys.MINUS:
+
+                calc.changeState(new SecondOperand(firstResult, key));
+                break;
+            
+            case OperatorKeys.DIV:
+                calc.changeState(new ThirdOperand(this._firstNumber, this._operator,
+                    secondNumber, key));
+                break;
+
             case OperatorKeys.MULT:
                 calc.changeState(new ThirdOperand(this._firstNumber, this._operator,
                                                 secondNumber, key)); 
+                break;
+            default:
+                throw new Error("Invalid Operator");
                 break;
         }
     }

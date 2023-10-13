@@ -19,3 +19,7 @@ OK WAIT.
 They're smart to store the evaluation in the buffer. 
 
 Control flow: 
+
+EOD 10/12: 
+only thing that doesn't work is division. 
+A tree-based structure might be better? 
