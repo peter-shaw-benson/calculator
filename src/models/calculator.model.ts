@@ -5,12 +5,15 @@ import { OperatorKeys } from '../enums/operator-keys.enum';
 import { ICalculatorModel } from '../interfaces/calculator-model.interface';
 import { ICalculatorState } from '../interfaces/calculator-state.interface';
 import { FirstOperand } from './states/calculator.first-state';
+import { Evaluator } from './evaluator';
 
 export class CalculatorModel implements ICalculatorModel {
 
   private _operands: Array<string> = [];
   private _buffer: string = '';
   private _operators: Array<OperatorKeys> = [];
+
+  private _evaluator: Evaluator = new Evaluator();
 
   // state
   private state: ICalculatorState;
@@ -19,18 +22,17 @@ export class CalculatorModel implements ICalculatorModel {
     this.state = new FirstOperand();
   }
 
-  public changeState(newState: ICalculatorState) {
-    this.state = newState;
+  public clear() {
+    this._buffer = '';
+    this._operands = [];
+    this._operators = [];
   }
 
-  public pressNumericKey(key: NumericKeys): void {
-    this.state.numericPressed(this, key);
-
+  public storeNumericKey(key: NumericKeys): void {
     this._buffer += key;
   }
 
-  public pressOperatorKey(key: OperatorKeys): void {
-    this.state.operationPressed(this, key);
+  public storeOperator(key: OperatorKeys): void {
 
     this._operators.push(key);
     this._operands.push(this._buffer);
@@ -38,36 +40,31 @@ export class CalculatorModel implements ICalculatorModel {
     this._buffer = '';
   }
 
+  public changeState(newState: ICalculatorState) {
+    this.state = newState;
+  }
+
+  public pressNumericKey(key: NumericKeys): void {
+    this.state.numericPressed(this, key);
+  }
+
+  public pressOperatorKey(key: OperatorKeys): void {
+    this.state.operationPressed(this, key);
+  }
+
   public pressActionKey(key: ActionKeys): void {
     this.state.actionPressed(this, key);
-
-    switch (key) {
-      case ActionKeys.CLEAR:
-        this._buffer = '';
-        this._operands = [];
-        this._operators = [];
-        break;
-      case ActionKeys.DOT:
-        this._buffer += '.';
-        break;
-      case ActionKeys.EQUALS:
-        this._operands.push(this._buffer);
-        if (this._operators.length !== this._operands.length - 1) {
-          this.pressActionKey(ActionKeys.CLEAR);
-          break;
-        }
-        this._buffer = this.evaluate();
-        break;
-      default:
-        throw new Error('Invalid Action');
-    }
   }
 
   public display(): string {
     return this._buffer;
   }
 
-  private evaluate(): string {
+  public evaluate(): string {
+
+    this._operands.push(this._buffer);
+    console.log(this._operands[0], this._operands[1]);
+    this._buffer = '';
 
     while(this._operators.length > 0) {
       const operator: OperatorKeys = this._operators.shift();
@@ -95,6 +92,43 @@ export class CalculatorModel implements ICalculatorModel {
   
     return this._operands.shift();
 
+  }
+
+  public evaluateThirdOperand(): string {
+
+    let currentResult: number = parseFloat(this._operands.pop());
+    
+    console.log(currentResult);
+
+    while(this._operators.length > 0) {
+      // takes first operator from the operators list
+      const operator: OperatorKeys = this._operators.pop();
+      // takes first operand from operands
+      const operandOne: number = parseFloat(this._operands.pop());
+      
+      switch(operator) {
+        case OperatorKeys.PLUS:
+          currentResult = (operandOne + currentResult);
+          break;
+        case OperatorKeys.MINUS:
+          currentResult = (operandOne - currentResult);
+          break;
+        case OperatorKeys.MULT:
+          currentResult = (operandOne * currentResult);
+          break;  
+        case OperatorKeys.DIV:
+          currentResult = (operandOne / currentResult);
+          break;
+        default:
+          break;
+      }
+
+      this._buffer = currentResult.toString();
+      // 
+      this._operands.unshift(this._buffer);
+    }
+  
+    return this._operands.shift();
   }
 
 }

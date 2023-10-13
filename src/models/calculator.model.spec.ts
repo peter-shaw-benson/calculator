@@ -122,4 +122,15 @@ describe('CalculatorModel', (): void => {
     const displayValue: string = calculator.display();
     expect(displayValue).toEqual('14');
   });
+
+  it('should display `14` when equals is clicked on `2 + 3 + 9`', (): void => {
+    calculator.pressNumericKey(NumericKeys.TWO);
+    calculator.pressOperatorKey(OperatorKeys.PLUS);
+    calculator.pressNumericKey(NumericKeys.THREE);
+    calculator.pressOperatorKey(OperatorKeys.PLUS);
+    calculator.pressNumericKey(NumericKeys.NINE);
+    calculator.pressActionKey(ActionKeys.EQUALS);
+    const displayValue: string = calculator.display();
+    expect(displayValue).toEqual('14');
+  });
 });

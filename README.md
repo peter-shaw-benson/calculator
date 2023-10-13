@@ -1,4 +1,6 @@
 
+Team Members: Peter Benson, Tim Porter.
+
 # week-4-tdd-starter
 
 Project scaffold for week-4-tdd-starter

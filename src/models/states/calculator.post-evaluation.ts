@@ -1,45 +1,44 @@
 import { ICalculatorState } from "../../interfaces/calculator-state.interface";
 import { ICalculatorModel } from "../../interfaces/calculator-model.interface";
-import { SecondOperand } from "./calculator.second-state";
 import { OperatorKeys } from "../../enums/operator-keys.enum";
+import { ThirdOperand } from "./calculator.third-state";
 import { NumericKeys } from "../../enums/numeric-keys.enum";
 import { ActionKeys } from "../../enums/action-keys.enum";
+import { SecondOperand } from "./calculator.second-state";
 
-export class FirstOperand implements ICalculatorState {
-
-    private _firstOperand: string = '';
-
-    constructor() {};
+export class PostEvaluation implements ICalculatorState {
+    constructor() {}
 
     numericPressed(calc: ICalculatorModel, key: NumericKeys): void {
-        // add to buffer here, keep making the first operand
-        calc.storeNumericKey(key);
-
-        this._firstOperand += key;
+        // can't add new numbers here. 
+        //calc.storeNumericKey(key);
     }
 
     operationPressed(calc: ICalculatorModel, key: OperatorKeys): void {
-
-        let firstNumber: number = parseFloat(this._firstOperand)
-
-        calc.changeState(new SecondOperand(firstNumber));
+        //calc.changeState(new SecondOperand());
 
         calc.storeOperator(key);
 
-        // push to the first operator buffer, and the operators buffer? 
+        switch (key) {
+            case OperatorKeys.MULT:
+                calc.changeState(new SecondOperand()); 
+                break;
+        }
     }
 
     actionPressed(calc: ICalculatorModel, key: ActionKeys): void {
-        // should only really do somethin on a "CLEAR". 
+        // can accept equals or clear. 
         switch (key) {
             case ActionKeys.CLEAR:
                 calc.clear();
                 break;
             case ActionKeys.EQUALS:
-                // do nothing
+                // do nothing.
                 break;
             default:
                 throw new Error('Invalid Action');
         }
     }
+
+    
 }
